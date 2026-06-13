@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data Example</title>
+    <link rel="stylesheet" href="../../infographic.css" />
+  </head>
+  <body class="ig-page">
+    <header class="ig-header">
+      <h1 class="ig-header-title">Artifact metrics</h1>
+      <p class="ig-header-subtitle">Three data modes: proportional bars, stats, and donut rings.</p>
+    </header>
+    <main class="ig-main ig-data">
+      <div class="ig-data-chart ig-data-chart--bar">
+        <article class="ig-data-bar ig-data-bar--primary" style="--ig-data-fill: 92%">
+          <span class="ig-data-label">Families</span>
+          <strong class="ig-data-value">6</strong>
+        </article>
+        <article class="ig-data-bar ig-data-bar--accent" style="--ig-data-fill: 64%">
+          <span class="ig-data-label">Callout variants</span>
+          <strong class="ig-data-value">5</strong>
+        </article>
+        <article class="ig-data-bar ig-data-bar--muted" style="--ig-data-fill: 12%">
+          <span class="ig-data-label">External deps</span>
+          <strong class="ig-data-value">0</strong>
+        </article>
+      </div>
+
+      <div class="ig-data-chart ig-data-chart--stat">
+        <article class="ig-data-stat">
+          <strong class="ig-data-value">33</strong>
+          <span class="ig-data-label">Phase 2 tasks</span>
+        </article>
+        <article class="ig-data-stat">
+          <strong class="ig-data-value">3</strong>
+          <span class="ig-data-label">New capabilities</span>
+        </article>
+        <article class="ig-data-stat">
+          <strong class="ig-data-value">0</strong>
+          <span class="ig-data-label">External JS</span>
+        </article>
+      </div>
+
+      <div class="ig-data-chart ig-data-chart--donut">
+        <article class="ig-data-donut">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ig-data-donut-track" cx="60" cy="60" r="44" pathLength="100"></circle>
+            <circle
+              class="ig-data-donut-fill"
+              cx="60"
+              cy="60"
+              r="44"
+              pathLength="100"
+              stroke-dasharray="72 100"
+            ></circle>
+          </svg>
+          <span class="ig-data-label">Completion</span>
+          <strong class="ig-data-value">72%</strong>
+        </article>
+        <article class="ig-data-donut">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ig-data-donut-track" cx="60" cy="60" r="44" pathLength="100"></circle>
+            <circle
+              class="ig-data-donut-fill"
+              cx="60"
+              cy="60"
+              r="44"
+              pathLength="100"
+              stroke-dasharray="48 100"
+            ></circle>
+          </svg>
+          <span class="ig-data-label">Dependency-free</span>
+          <strong class="ig-data-value">48%</strong>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

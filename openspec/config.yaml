@@ -1,20 +1,18 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Tech stack: Vanilla CSS
+  Domain: Dependency-free infographic CSS library tailored for LLMs to generate.
+  Conventions: 
+    - Zero JavaScript
+    - Zero external dependencies (fonts, CDNs, frameworks)
+    - Must be usable embedded in a single HTML file or linked as a standalone `infographic.css`
+    - Use strict naming conventions: `ig-{family}-{element}--{variant}`
+    - Visual theme relies entirely on a 2-layer CSS custom property architecture
+    - Reset is scoped to the `ig-page` container
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  design:
+    - Never recommend JS-based interactivity or external resources.
+  specs:
+    - Ensure rules are completely explicit so an LLM doesn't need to interpret them.

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comparison Example</title>
+    <link rel="stylesheet" href="../../infographic.css" />
+  </head>
+  <body class="ig-page">
+    <header class="ig-header">
+      <h1 class="ig-header-title">Comparison matrix</h1>
+      <p class="ig-header-subtitle">Matrix mode aligns traits with option columns.</p>
+    </header>
+    <main class="ig-main ig-comparison">
+      <div class="ig-comparison-grid ig-comparison-grid--matrix" style="--ig-col-count: 3">
+        <h2 class="ig-comparison-col-head">Linked CSS</h2>
+        <h2 class="ig-comparison-col-head">Embedded CSS</h2>
+        <h2 class="ig-comparison-col-head">Both</h2>
+
+        <div class="ig-comparison-trait">
+          <strong class="ig-comparison-trait-label">Reuse</strong>
+          <span class="ig-comparison-cell">Best for multiple pages sharing one stylesheet.</span>
+          <span class="ig-comparison-cell">Best for one self-contained artifact.</span>
+          <span class="ig-comparison-cell ig-comparison-cell--highlight">Both are valid delivery modes.</span>
+        </div>
+
+        <div class="ig-comparison-trait">
+          <strong class="ig-comparison-trait-label">Updates</strong>
+          <span class="ig-comparison-cell">Change one file to update every page.</span>
+          <span class="ig-comparison-cell ig-comparison-cell--highlight">Edit a single HTML file directly.</span>
+          <span class="ig-comparison-cell">Use whichever fits the artifact.</span>
+        </div>
+
+        <div class="ig-comparison-trait">
+          <strong class="ig-comparison-trait-label">Portability</strong>
+          <span class="ig-comparison-cell">Depends on the linked stylesheet.</span>
+          <span class="ig-comparison-cell ig-comparison-cell--highlight">Easy to move as one file.</span>
+          <span class="ig-comparison-cell">The same CSS should render identically in both modes.</span>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

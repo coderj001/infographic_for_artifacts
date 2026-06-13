@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Structure Example</title>
+    <link rel="stylesheet" href="../../infographic.css" />
+  </head>
+  <body class="ig-page">
+    <header class="ig-header">
+      <h1 class="ig-header-title">Library structure</h1>
+      <p class="ig-header-subtitle">Tree mode uses nested children; flat mode preserves the older indentation pattern.</p>
+    </header>
+    <main class="ig-main ig-structure">
+      <div class="ig-structure-tree">
+        <article class="ig-structure-node ig-structure-node--root">
+          <span class="ig-structure-node-label">Infographic CSS library</span>
+          <div class="ig-structure-children">
+            <article class="ig-structure-node">
+              <span class="ig-structure-node-label">Shell</span>
+            </article>
+            <article class="ig-structure-node">
+              <span class="ig-structure-node-label">Families</span>
+              <div class="ig-structure-children">
+                <article class="ig-structure-node ig-structure-node--leaf">
+                  <span class="ig-structure-node-label">Callouts</span>
+                </article>
+              </div>
+            </article>
+          </div>
+        </article>
+      </div>
+
+      <div class="ig-structure-tree ig-structure-tree--flat">
+        <article class="ig-structure-node ig-structure-node--root">
+          <span class="ig-structure-node-label">Flat fallback</span>
+        </article>
+        <article class="ig-structure-node">
+          <span class="ig-structure-node-label">Shell</span>
+        </article>
+        <article class="ig-structure-node ig-structure-node--leaf">
+          <span class="ig-structure-node-label">Families</span>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

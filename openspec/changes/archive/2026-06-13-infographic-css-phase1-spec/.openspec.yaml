@@ -1,0 +1,10 @@
+schema: spec-driven
+name: infographic-css-phase1-spec
+description: Define the contract for the infographic CSS library, locking pattern families, variants, naming conventions, and page shell.
+capabilities:
+  - page-shell
+  - pattern-families
+  - callout-component
+  - naming-conventions
+  - css-architecture
+created: 2026-06-13
