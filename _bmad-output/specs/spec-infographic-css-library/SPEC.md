@@ -27,6 +27,9 @@ Markdown and spec artifacts are efficient for LLMs but too flat for humans who n
 - id: CAP-3
   intent: A companion skill can provide the CSS library docs to an LLM so the LLM can choose the right visual pattern from content without the skill making conversion decisions.
   success: The skill points the LLM at the documented patterns and examples and does not act as a separate converter or planner.
+- id: CAP-4
+  intent: A user or system can wrap the documented pattern blocks in one canonical page shell so the output is a complete artifact rather than disconnected fragments.
+  success: The library docs define a stable shell structure for title, intro, and content composition, and generated pages can assemble multiple pattern blocks without inventing a new layout.
 
 ## Constraints
 
@@ -40,6 +43,7 @@ Markdown and spec artifacts are efficient for LLMs but too flat for humans who n
 ## Non-goals
 
 - Multiple themes in the first release.
+- Multiple page shells in the first release.
 - Automatic conversion from PRDs, specs, or markdown into final HTML artifacts.
 - A general-purpose design system or application framework.
 - JavaScript-based charting, SVG-first analytics, or high-precision visualization tooling.
@@ -52,7 +56,3 @@ Markdown and spec artifacts are efficient for LLMs but too flat for humans who n
 
 - The first release optimizes for explanation and review, not for brand customization.
 - The companion skill is the intended primary interface for LLM authorship guidance.
-
-## Open Questions
-
-- Should the first release include a canonical page shell around the patterns, or only the pattern blocks themselves?

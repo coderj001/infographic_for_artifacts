@@ -6,6 +6,13 @@
 - Use internal CSS variables so future theming is possible without changing the HTML contract.
 - Keep the visual style consistent across all pattern families.
 
+## Page Shell
+
+- V1 includes one canonical page shell.
+- The shell is for assembling multiple pattern blocks into a complete artifact.
+- The shell should stay simple enough that the LLM does not need a second layout system.
+- Pattern blocks remain reusable inside the shell and, if needed, inside other documents.
+
 ## Naming
 
 - Pattern families use the `ig-{family}-pattern` wrapper class.
