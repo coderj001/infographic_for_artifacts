@@ -1,3 +1,6 @@
 .agent/
 .agents/
 _bmad/
+
+.codex/
+graphify-out

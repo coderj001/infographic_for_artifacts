@@ -1,0 +1,7 @@
+.agent/
+.agents/
+_bmad/
+.codex/
+AGENTS.md
+node_modules/
+graphify-out/
