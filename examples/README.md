@@ -17,5 +17,6 @@ Fixtures:
 - `families/analysis.html` - analysis family
 - `families/data.html` - data family
 - `families/code.html` - code family
+- `callouts/callouts.html` - reusable callout component, including the risk variant
 
 Each fixture references `../../infographic.css`.
