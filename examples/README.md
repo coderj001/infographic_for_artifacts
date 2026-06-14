@@ -5,7 +5,7 @@ These pages are conformance fixtures for the infographic CSS library.
 Layering:
 
 - Contract: skill/spec documents define the allowed surface
-- Implementation: `infographic.css` renders the contract
+- Implementation: `skills/infographic-css/infographic.css` renders the contract
 - Fixtures: the HTML files here prove the contract and implementation line up
 
 Fixtures:
@@ -19,4 +19,4 @@ Fixtures:
 - `families/code.html` - code family
 - `callouts/callouts.html` - reusable callout component, including the risk variant
 
-Each fixture references `../../infographic.css`.
+Each fixture references the repo-root `../../infographic.css` compatibility wrapper, which forwards to `skills/infographic-css/infographic.css`.

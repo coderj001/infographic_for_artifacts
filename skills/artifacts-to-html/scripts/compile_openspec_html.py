@@ -3,7 +3,8 @@
 
 The script is intentionally dependency-free. It preserves source traceability and
 renders common text/Markdown/code files into a single HTML page using the
-shared infographic.css shell plus a small amount of document-specific layout CSS.
+shared `skills/infographic-css/infographic.css` shell plus a small amount of
+document-specific layout CSS.
 """
 
 from __future__ import annotations
@@ -244,7 +245,7 @@ def repo_root() -> Path:
 
 
 def stylesheet_href_for(output_dir: Path) -> str:
-    css_path = (repo_root() / "infographic.css").resolve()
+    css_path = (repo_root() / "skills" / "infographic-css" / "infographic.css").resolve()
     try:
         if output_dir.resolve().is_relative_to(repo_root()):
             return os.path.relpath(css_path, output_dir).replace(os.sep, "/")
@@ -307,7 +308,7 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str, styles
     <div class="container">
       <div class="eyebrow">openspec html consolidation</div>
       <h1 class="ig-header-title">{html.escape(title)}</h1>
-      <p class="ig-header-subtitle subtitle">A single HTML artifact combining all detected source files in <code>{html.escape(root.name)}</code>. Shared shell and callout styling comes from <code>infographic.css</code>.</p>
+      <p class="ig-header-subtitle subtitle">A single HTML artifact combining all detected source files in <code>{html.escape(root.name)}</code>. Shared shell and callout styling comes from <code>skills/infographic-css/infographic.css</code>.</p>
       <div class="summary-grid" aria-label="Summary">
         <div class="card"><strong>{len(artifacts)}</strong><span>included artifacts</span></div>
         <div class="card"><strong>1</strong><span>combined HTML file</span></div>
@@ -360,7 +361,7 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str, styles
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Combine OpenSpec artifacts into one HTML file that uses infographic.css.")
+    parser = argparse.ArgumentParser(description="Combine OpenSpec artifacts into one HTML file that uses the infographic.css skill stylesheet.")
     parser.add_argument("input_dir", type=Path, help="Directory containing OpenSpec artifacts")
     parser.add_argument("output_file", type=Path, nargs="?", help="Output HTML file, defaults to input_dir/index.html")
     parser.add_argument("--title", default=None, help="HTML document title")

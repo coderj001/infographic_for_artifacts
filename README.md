@@ -1,6 +1,6 @@
 # infographic-css
 
-One-command installer for the `infographic-css` Codex skill.
+One-command installer for the `artifacts-to-html` Codex skill and its bundled infographic stylesheet.
 
 ## Install
 
@@ -20,11 +20,13 @@ npx infographic-css add
 
 The `add` command copies:
 
-- `skills/infographic-css/SKILL.md`
+- `skills/artifacts-to-html/SKILL.md`
+- `skills/artifacts-to-html/infographic-css/infographic.css`
 
 into:
 
-- `./.codex/skills/infographic-css/SKILL.md`
+- `./.codex/skills/artifacts-to-html/SKILL.md`
+- `./.codex/skills/artifacts-to-html/references/infographic.css`
 
 ## Package entrypoint
 

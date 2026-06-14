@@ -7,7 +7,7 @@ description: create polished html artifacts for openspec-related work using the 
 
 ## Core rule
 
-Default to **one `index.html` file inside the target OpenSpec directory**. The file must combine the relevant content from all OpenSpec artifacts for that request, such as proposal notes, design notes, tasks, implementation plans, diagrams, code snippets and decision logs. The page should link the repo-root `infographic.css` stylesheet and use the shared `ig-page`, `ig-header`, `ig-main`, `ig-footer`, `ig-callout`, and `ig-code-block` primitives where they fit. Only create multiple HTML files when the user explicitly asks for a multi-page site.
+Default to **one `index.html` file inside the target OpenSpec directory**. The file must combine the relevant content from all OpenSpec artifacts for that request, such as proposal notes, design notes, tasks, implementation plans, diagrams, code snippets and decision logs. The page should link the canonical `./references/infographic.css` stylesheet and use the shared `ig-page`, `ig-header`, `ig-main`, `ig-footer`, `ig-callout`, and `ig-code-block` primitives where they fit. Only create multiple HTML files when the user explicitly asks for a multi-page site.
 
 ## Output contract
 
@@ -16,7 +16,7 @@ Default to **one `index.html` file inside the target OpenSpec directory**. The f
 3. Keep the final chat response brief and link to the generated `index.html` or packaged result.
 4. Use semantic HTML sections, readable CSS, and visible navigation.
 5. Make the HTML useful as a thinking canvas: diagrams, grids, callouts, annotated code, tables, timelines, decision cards, and status badges are encouraged. For more details refer [required_information_modes](./references/required_information_modes.md)
-6. Prefer the shared `infographic.css` shell and only add local CSS for the document-specific layout that the library does not cover.
+6. Prefer the shared `skills/infographic-css/infographic.css` shell and only add local CSS for the document-specific layout that the library does not cover.
 7. Keep filenames lowercase, hyphenated, and ending in `.html`; the default entry file is `index.html`.
 8. Escape code snippets, diffs, and user-provided text safely before embedding in HTML.
 
@@ -26,7 +26,7 @@ Default to **one `index.html` file inside the target OpenSpec directory**. The f
 2. **Inventory artifacts.** Look for source files such as `proposal.md`, `tasks.md`, `design.md`, `spec.md`, PR notes, diffs, issue notes, screenshots descriptions, code snippets, and review findings.
 3. **Synthesize one page.** Create or update `<dir>/index.html` with a clear title, summary cards, source map, navigation, and one major section per meaningful artifact or theme.
 4. **Preserve traceability.** Label assumptions and source sections. When merging existing artifacts, include a “source map” table showing which inputs were incorporated.
-5. **Convert structure, not just text.** Turn Markdown lists into cards/checklists where useful, transform tasks into phased checklists, turn options into comparison cards, and render flows as CSS/SVG diagrams. Read `./references/page_anatomy.md` and follow it.
+5. **Convert structure, not just text.** Turn Markdown lists into cards/checklists where useful, transform tasks into phased checklists, turn options into comparison cards, and render flows as CSS/SVG diagrams. Read [page_anatomy.md](./references/page_anatomy.md) and [pattern_families.md](./references/pattern_families.md) and follow them.
 6. **Avoid raw dumping.** Do not simply paste concatenated documents unless the user only asks for archival consolidation. Prefer curated, navigable HTML that preserves the data while improving readability.
 7. **Be extremely concise. Sacrifice grammar for the sake of concision.** Do not overexplain or use excessive grammatical jargon. Keep explanations simple and direct. For diagrams and summaries, focus on clarity and key points only.
 

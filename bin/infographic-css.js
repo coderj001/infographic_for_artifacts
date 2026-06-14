@@ -5,7 +5,7 @@ const path = require("path");
 
 function usage() {
   console.log("Usage: infographic-css add [target-dir]");
-  console.log("Installs .codex/skills/infographic-css/SKILL.md into the target directory.");
+  console.log("Installs .codex/skills/artifacts-to-html/SKILL.md and its bundled references/infographic.css into the target directory.");
 }
 
 function getExitCode(command) {
@@ -26,13 +26,18 @@ function main(argv) {
   }
 
   const targetRoot = path.resolve(process.cwd(), getTargetDir(argv[3]));
-  const source = path.join(__dirname, "..", "skills", "infographic-css", "SKILL.md");
-  const destinationDir = path.join(targetRoot, ".codex", "skills", "infographic-css");
-  const destination = path.join(destinationDir, "SKILL.md");
+  const skillSource = path.join(__dirname, "..", "skills", "artifacts-to-html", "SKILL.md");
+  const stylesheetSource = path.join(__dirname, "..", "skills", "artifacts-to-html", "infographic-css", "infographic.css");
+  const skillDestinationDir = path.join(targetRoot, ".codex", "skills", "artifacts-to-html");
+  const stylesheetDestinationDir = path.join(skillDestinationDir, "references");
+  const skillDestination = path.join(skillDestinationDir, "SKILL.md");
+  const stylesheetDestination = path.join(stylesheetDestinationDir, "infographic.css");
 
-  fs.mkdirSync(destinationDir, { recursive: true });
-  fs.copyFileSync(source, destination);
-  console.log(`Installed infographic-css skill to ${path.relative(process.cwd(), destination)}`);
+  fs.mkdirSync(stylesheetDestinationDir, { recursive: true });
+  fs.copyFileSync(skillSource, skillDestination);
+  fs.copyFileSync(stylesheetSource, stylesheetDestination);
+  console.log(`Installed artifacts-to-html skill to ${path.relative(process.cwd(), skillDestination)}`);
+  console.log(`Installed infographic.css to ${path.relative(process.cwd(), stylesheetDestination)}`);
 }
 
 main(process.argv);

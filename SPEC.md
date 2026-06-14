@@ -398,7 +398,7 @@ The reset is scoped to `.ig-page` only.
 
 ### 5.5 Distribution Contract
 
-- The library SHALL be distributable as a single `infographic.css` file
+- The library SHALL be distributable as the canonical `skills/infographic-css/infographic.css` file, with the repo-root `infographic.css` acting as a compatibility wrapper.
 - The same file MAY be linked with `<link rel="stylesheet" href="infographic.css">`
 - The same file MAY be copied verbatim into a `<style>` block
 - Both delivery modes SHALL render identically

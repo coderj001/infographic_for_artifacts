@@ -7,7 +7,7 @@ status: draft
 
 ## Objective
 
-Build a dependency-free infographic CSS library that can be embedded in a single HTML file or used as a standalone `infographic.css` file. The library should help an LLM explain concepts to humans with strict, semantic HTML patterns rather than ad hoc layouts.
+Build a dependency-free infographic CSS library that can be embedded in a single HTML file or used as a standalone stylesheet at `skills/infographic-css/infographic.css` with a root `infographic.css` compatibility wrapper. The library should help an LLM explain concepts to humans with strict, semantic HTML patterns rather than ad hoc layouts.
 
 ## Product Shape
 
@@ -35,7 +35,7 @@ Acceptance criteria:
 
 ### Phase 2: Build the CSS library
 
-- Implement `infographic.css`.
+- Implement `skills/infographic-css/infographic.css`.
 - Implement the canonical page shell.
 - Implement the six pattern families:
   - Process
@@ -48,7 +48,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- `infographic.css` renders the page shell and all documented families.
+- `skills/infographic-css/infographic.css` renders the page shell and all documented families.
 - Each family has a distinct visual treatment and stable class contract.
 - The CSS works without any JavaScript dependency.
 - Risk callouts and other callouts render consistently inside multiple families.
