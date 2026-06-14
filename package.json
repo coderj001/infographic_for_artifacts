@@ -1,0 +1,14 @@
+{
+   "name": "infographic-css",
+   "version": "0.1.0",
+   "description": "One-command installer for the infographic-css Codex skill.",
+   "bin": {
+      "infographic-css": "./bin/infographic-css.js"
+   },
+   "files": [
+      "bin/infographic-css.js",
+      "skills/infographic-css/SKILL.md"
+   ],
+   "license": "MIT",
+   "devDependencies": {}
+}

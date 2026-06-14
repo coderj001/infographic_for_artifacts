@@ -6,9 +6,5 @@
    "duplicates": {
       "minOccurrences": 3
    },
-   "rules": {
-      "dead-code": {
-         "severity": "none"
-      }
-   }
+   "rules": {}
 }

@@ -2,8 +2,8 @@
 """Combine OpenSpec artifacts from a directory into one portable index.html.
 
 The script is intentionally dependency-free. It preserves source traceability and
-renders common text/Markdown/code files into a single self-contained HTML page
-using the SemiColony roadmap visual system.
+renders common text/Markdown/code files into a single HTML page using the
+shared infographic.css shell plus a small amount of document-specific layout CSS.
 """
 
 from __future__ import annotations
@@ -185,89 +185,75 @@ def render_content(path: Path, text: str) -> str:
     return f'<pre><code data-language="{html.escape(language)}">{html.escape(text)}</code></pre>'
 
 
-def css() -> str:
+def local_css() -> str:
     return """
-:root {
-  --action-blue: #3B82F6;
-  --deep-slate: #1E293B;
-  --semicolon-navy: #0F172A;
-  --white: #FFFFFF;
-  --soft-gray: #F8FAFC;
-  --border: #E2E8F0;
-  --muted: #64748B;
-  --completed: #22C55E;
-  --current: #EAB308;
-  --locked: #94A3B8;
-}
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: var(--deep-slate);
-  background: linear-gradient(180deg, var(--soft-gray) 0%, var(--white) 320px);
-  line-height: 1.6;
-}
-a { color: var(--action-blue); text-decoration: none; }
-a:hover { text-decoration: underline; }
 .container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
-.hero { padding: 56px 0 32px; }
-.eyebrow { font: 700 0.78rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--action-blue); }
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; margin: 14px 0; color: var(--semicolon-navy); }
-.subtitle { max-width: 760px; color: var(--muted); font-size: 1.08rem; }
-.summary-grid, .artifact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.card, .artifact-section, .callout, .source-map {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-}
+.hero { padding-bottom: 12px; }
+.eyebrow { font: 700 0.78rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--ig-accent); }
+.subtitle { max-width: 760px; }
+.summary-grid, .artifact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.card, .artifact-section, .source-map { border: 1px solid var(--ig-border); border-radius: calc(var(--ig-radius) + 4px); background: var(--ig-surface); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06); }
 .card { padding: 18px; }
-.card strong { display: block; color: var(--semicolon-navy); font-size: 1.4rem; }
-.card span, .muted { color: var(--muted); }
-.nav-wrap { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); background: rgba(248,250,252,.9); border-block: 1px solid var(--border); }
+.card strong { display: block; color: var(--ig-text); font-size: 1.4rem; }
+.card span, .muted { color: var(--ig-text-muted); }
+.nav-wrap { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); background: rgba(255,255,255,.88); border-block: 1px solid var(--ig-border); margin: 24px 0 0; }
 .nav { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0; }
-.nav a { white-space: nowrap; border: 1px solid var(--border); background: var(--white); border-radius: 999px; padding: 8px 12px; font-size: .9rem; }
+.nav a { white-space: nowrap; border: 1px solid var(--ig-border); background: var(--ig-surface); border-radius: 999px; padding: 8px 12px; font-size: .9rem; color: inherit; text-decoration: none; }
 .section { padding: 34px 0; }
 .section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-.node { display: inline-grid; place-items: center; min-width: 48px; height: 48px; border-radius: 14px; background: rgba(59,130,246,.1); color: var(--action-blue); font-weight: 800; }
-h2 { color: var(--semicolon-navy); margin: 0; font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.node { display: inline-grid; place-items: center; min-width: 48px; height: 48px; border-radius: 14px; background: rgba(59,130,246,.1); color: var(--ig-accent); font-weight: 800; }
+h2 { color: var(--ig-text); margin: 0; font-size: clamp(1.5rem, 3vw, 2.1rem); }
 .source-map { overflow: hidden; }
 table { width: 100%; border-collapse: collapse; }
-th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-th { background: var(--soft-gray); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--ig-border); vertical-align: top; }
+th { background: var(--ig-surface-alt); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ig-text-muted); }
 tr:last-child td { border-bottom: 0; }
-.badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 9px; font-size: .78rem; font-weight: 700; background: rgba(59,130,246,.1); color: var(--action-blue); }
+.badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 9px; font-size: .78rem; font-weight: 700; background: rgba(59,130,246,.1); color: var(--ig-accent); }
 .badge.completed { background: rgba(34,197,94,.12); color: #15803d; }
 .badge.current { background: rgba(234,179,8,.18); color: #854d0e; }
 .artifact-section { padding: 22px; margin-bottom: 18px; }
-.artifact-header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 18px; }
-.artifact-header h3 { margin: 0 0 4px; color: var(--semicolon-navy); }
-.path { font: 600 .82rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--muted); word-break: break-all; }
-.content h2, .content h3, .content h4 { color: var(--semicolon-navy); margin-top: 1.2em; }
+.artifact-header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; border-bottom: 1px solid var(--ig-border); padding-bottom: 12px; margin-bottom: 18px; }
+.artifact-header h3 { margin: 0 0 4px; color: var(--ig-text); }
+.path { font: 600 .82rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--ig-text-muted); word-break: break-all; }
+.content h2, .content h3, .content h4 { color: var(--ig-text); margin-top: 1.2em; }
 .content ul, .content ol { padding-left: 1.25rem; }
-pre { overflow: auto; padding: 16px; background: var(--semicolon-navy); color: #E2E8F0; border-radius: 12px; font-size: .88rem; line-height: 1.5; }
+pre { overflow: auto; padding: 16px; background: var(--ig-color-navy); color: #E2E8F0; border-radius: 12px; font-size: .88rem; line-height: 1.5; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-.callout { padding: 18px; border-left: 4px solid var(--action-blue); }
-footer { margin-top: 40px; padding: 28px 0; background: var(--semicolon-navy); color: #CBD5E1; }
-footer code { color: white; }
+.callout { padding: 18px; border-left: 4px solid var(--ig-accent); }
+footer { margin-top: 40px; padding: 28px 0; background: var(--ig-color-navy); color: #CBD5E1; }
+footer code { color: #ffffff; }
 @media (max-width: 760px) {
   .summary-grid, .artifact-grid { grid-template-columns: 1fr; }
   .artifact-header { display: block; }
   th, td { display: block; width: 100%; }
   th { display: none; }
   td { border-bottom: 0; padding: 8px 14px; }
-  tr { display: block; border-bottom: 1px solid var(--border); padding: 8px 0; }
+  tr { display: block; border-bottom: 1px solid var(--ig-border); padding: 8px 0; }
 }
 @media print {
   .nav-wrap { position: static; }
-  body { background: white; }
+  body { background: #ffffff; }
   .card, .artifact-section, .callout, .source-map { box-shadow: none; }
 }
 """.strip()
 
 
-def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str) -> str:
+def repo_root() -> Path:
+    return Path(__file__).resolve().parents[3]
+
+
+def stylesheet_href_for(output_dir: Path) -> str:
+    css_path = (repo_root() / "infographic.css").resolve()
+    try:
+        if output_dir.resolve().is_relative_to(repo_root()):
+            return os.path.relpath(css_path, output_dir).replace(os.sep, "/")
+    except AttributeError:
+        pass
+    return css_path.as_uri()
+
+
+def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str, stylesheet_href: str) -> str:
     generated = dt.datetime.now().strftime("%Y-%m-%d %H:%M")
     rel_rows = []
     nav_links = []
@@ -313,14 +299,15 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str) -> str
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)}</title>
-  <style>{css()}</style>
+  <link rel="stylesheet" href="{html.escape(stylesheet_href)}">
+  <style>{local_css()}</style>
 </head>
-<body>
-  <header class="hero">
+<body class="ig-page">
+  <header class="ig-header hero">
     <div class="container">
       <div class="eyebrow">openspec html consolidation</div>
-      <h1>{html.escape(title)}</h1>
-      <p class="subtitle">A single-file OpenSpec thinking canvas combining all detected artifacts in <code>{html.escape(root.name)}</code>. Source content is preserved with traceable sections and readable, portable styling.</p>
+      <h1 class="ig-header-title">{html.escape(title)}</h1>
+      <p class="ig-header-subtitle subtitle">A single HTML artifact combining all detected source files in <code>{html.escape(root.name)}</code>. Shared shell and callout styling comes from <code>infographic.css</code>.</p>
       <div class="summary-grid" aria-label="Summary">
         <div class="card"><strong>{len(artifacts)}</strong><span>included artifacts</span></div>
         <div class="card"><strong>1</strong><span>combined HTML file</span></div>
@@ -336,7 +323,7 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str) -> str
     </nav>
   </div>
 
-  <main class="container">
+  <main class="ig-main container">
     <section class="section" id="source-map">
       <div class="section-title"><span class="node">01</span><h2>Source map</h2></div>
       <div class="source-map">
@@ -355,13 +342,16 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str) -> str
 
     <section class="section" id="assumptions">
       <div class="section-title"><span class="node">03</span><h2>Assumptions and next edits</h2></div>
-      <div class="callout">
+      <div class="ig-callout ig-callout--note callout">
+        <span class="ig-callout-icon">i</span>
+        <div class="ig-callout-body">
         <strong>Assumption:</strong> This page preserves and organizes existing source artifacts without inventing missing requirements. Edit this section to add decisions, risks, recommendations, or final implementation guidance.
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
+  <footer class="ig-footer">
     <div class="container">Generated as a portable OpenSpec HTML artifact. Entry point: <code>index.html</code>.</div>
   </footer>
 </body>
@@ -370,7 +360,7 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str) -> str
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Combine OpenSpec artifacts into one self-contained HTML file.")
+    parser = argparse.ArgumentParser(description="Combine OpenSpec artifacts into one HTML file that uses infographic.css.")
     parser.add_argument("input_dir", type=Path, help="Directory containing OpenSpec artifacts")
     parser.add_argument("output_file", type=Path, nargs="?", help="Output HTML file, defaults to input_dir/index.html")
     parser.add_argument("--title", default=None, help="HTML document title")
@@ -383,6 +373,7 @@ def main() -> int:
     if not root.exists() or not root.is_dir():
         raise SystemExit(f"Input directory does not exist or is not a directory: {root}")
     output_file = (args.output_file or (root / "index.html")).resolve()
+    stylesheet = stylesheet_href_for(output_file.parent)
     artifacts: List[Tuple[Path, str]] = []
     for path in iter_artifacts(root, output_file):
         try:
@@ -391,7 +382,7 @@ def main() -> int:
             print(f"Skipping {path}: {exc}")
     title = args.title or f"{root.name.replace('-', ' ').replace('_', ' ').title()} OpenSpec"
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    output_file.write_text(build_html(root, artifacts, title), encoding="utf-8")
+    output_file.write_text(build_html(root, artifacts, title, stylesheet), encoding="utf-8")
     print(f"Wrote {output_file} with {len(artifacts)} artifacts")
     return 0
 
