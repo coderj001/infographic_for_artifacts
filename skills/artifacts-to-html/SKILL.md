@@ -1,39 +1,76 @@
 ---
 name: artifacts-to-html
-description: create polished html artifacts for openspec-related work using the shared infographic css shell. use when a user asks for openspec specs, proposals, plans, artifact consolidation, or any deliverable that should follow openspec conventions. always produce a real html file, usually index.html inside the relevant directory, combining all relevant openspec artifacts into one navigable page unless the user explicitly requests another format.
+description: consolidate OpenSpec artifacts into one navigable index.html using infographic.css. use when the user wants a polished html digest of proposal, design, spec, tasks, reviews, or implementation artifacts.
 ---
 
-# Openspec HTML Output Standard
+# artifacts-to-html
 
-## Core rule
+## Scope
 
-Default to **one `index.html` file inside the target OpenSpec directory**. The file must combine the relevant content from all OpenSpec artifacts for that request, such as proposal notes, design notes, tasks, implementation plans, diagrams, code snippets and decision logs. The page should link the canonical `./references/infographic.css` stylesheet and use the shared `ig-page`, `ig-header`, `ig-main`, `ig-footer`, `ig-callout`, and `ig-code-block` primitives where they fit. Only create multiple HTML files when the user explicitly asks for a multi-page site.
+Use this skill only for OpenSpec artifact consolidation.
 
-## Output contract
+Do:
+- combine related OpenSpec files into one `index.html`
+- preserve traceability
+- surface decisions, tasks, risks, and source maps
+- use `infographic.css` as the default presentation shell
 
-1. Create an actual `.html` artifact whenever file tools are available.
-2. Put substantive content in the HTML, not in chat.
-3. Keep the final chat response brief and link to the generated `index.html` or packaged result.
-4. Use semantic HTML sections, readable CSS, and visible navigation.
-5. Make the HTML useful as a thinking canvas: diagrams, grids, callouts, annotated code, tables, timelines, decision cards, and status badges are encouraged. For more details refer [required_information_modes](./references/required_information_modes.md)
-6. Prefer the shared `skills/infographic-css/infographic.css` shell and only add local CSS for the document-specific layout that the library does not cover.
-7. Keep filenames lowercase, hyphenated, and ending in `.html`; the default entry file is `index.html`.
-8. Escape code snippets, diffs, and user-provided text safely before embedding in HTML.
+Do not:
+- generate generic marketing pages
+- invent project content
+- split into multiple pages unless explicitly asked
+- replace source artifacts with chat summaries
 
-## Rules
+## Output Contract
 
-1. **Choose the directory.** Use the existing OpenSpec directory when one is provided. Otherwise create a lower-hyphenated directory named after the feature or task.
-2. **Inventory artifacts.** Look for source files such as `proposal.md`, `tasks.md`, `design.md`, `spec.md`, PR notes, diffs, issue notes, screenshots descriptions, code snippets, and review findings.
-3. **Synthesize one page.** Create or update `<dir>/index.html` with a clear title, summary cards, source map, navigation, and one major section per meaningful artifact or theme.
-4. **Preserve traceability.** Label assumptions and source sections. When merging existing artifacts, include a “source map” table showing which inputs were incorporated.
-5. **Convert structure, not just text.** Turn Markdown lists into cards/checklists where useful, transform tasks into phased checklists, turn options into comparison cards, and render flows as CSS/SVG diagrams. Read [page_anatomy.md](./references/page_anatomy.md) and [pattern_families.md](./references/pattern_families.md) and follow them.
-6. **Avoid raw dumping.** Do not simply paste concatenated documents unless the user only asks for archival consolidation. Prefer curated, navigable HTML that preserves the data while improving readability.
-7. **Be extremely concise. Sacrifice grammar for the sake of concision.** Do not overexplain or use excessive grammatical jargon. Keep explanations simple and direct. For diagrams and summaries, focus on clarity and key points only.
+The default deliverable is one `index.html` in the target OpenSpec directory.
 
-A helper is available at `scripts/compile_openspec_html.py` for deterministic consolidation of a directory into one `index.html`. Use it when the task is to combine existing files without requiring heavy editorial judgment, then improve the generated HTML manually if the user expects a polished artifact.
+The page must:
+- include a clear title and short summary
+- include a source map
+- organize content into navigable sections
+- reflect the actual source files, not a reimagined spec
+- remain readable without external dependencies
 
-Example:
+## Styling Rules
 
-```bash
-python scripts/compile_openspec_html.py path/to/openspec-dir path/to/openspec-dir/index.html --title "Feature OpenSpec"
-```
+- Use `infographic.css` first.
+- Use local CSS only for layout gaps the library does not cover.
+- Prefer shared primitives such as `ig-page`, `ig-header`, `ig-main`, `ig-footer`, `ig-callout`, and `ig-code-block`.
+- Do not create a new visual system inside this skill.
+
+## References
+
+Treat the files in `skills/artifacts-to-html/references/` as required supporting guidance:
+
+- `page_anatomy.md`
+- `pattern_families.md`
+- `required_information_modes.md`
+- `semicolony-design-system.md`
+
+Read them when shaping the page structure, choosing pattern families, or deciding how to render mixed artifact content.
+
+## Selection Rules
+
+When choosing how to render content:
+- proposals and plans become structured sections and cards
+- tasks become checklists or phased sections
+- specs become requirement blocks
+- reviews become findings or callouts
+- code and diffs become escaped code blocks
+- assumptions and uncertainties become callouts
+
+## Non-Goals
+
+This skill does not:
+- author new product requirements
+- redesign the source content
+- add interactive behavior
+- optimize for multi-page documentation by default
+
+## Implementation Notes
+
+- Use the deterministic compiler when the task is straightforward consolidation.
+- Improve the generated output only when needed for clarity.
+- Keep filenames lowercase and hyphenated.
+- Escape all embedded source text safely.

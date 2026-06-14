@@ -5,6 +5,12 @@ The script is intentionally dependency-free. It preserves source traceability an
 renders common text/Markdown/code files into a single HTML page using the
 shared `skills/infographic-css/infographic.css` shell plus a small amount of
 document-specific layout CSS.
+
+Implementation guidance lives alongside the skill in:
+- `skills/artifacts-to-html/references/page_anatomy.md`
+- `skills/artifacts-to-html/references/pattern_families.md`
+- `skills/artifacts-to-html/references/required_information_modes.md`
+- `skills/artifacts-to-html/references/semicolony-design-system.md`
 """
 
 from __future__ import annotations
@@ -42,6 +48,25 @@ ROLE_HINTS = [
     ("plan", "Plan"),
     ("diff", "Diff"),
     ("patch", "Patch"),
+]
+
+MODE_ORDER = [
+    "Tables",
+    "Design",
+    "Illustrations",
+    "Code",
+    "Interactions",
+    "Workflows",
+    "Spatial",
+    "Images",
+    "Text",
+]
+
+REFERENCE_DOCS = [
+    "page_anatomy.md",
+    "pattern_families.md",
+    "required_information_modes.md",
+    "semicolony-design-system.md",
 ]
 
 
@@ -86,6 +111,40 @@ def infer_role(path: Path) -> str:
             return label
     suffix = path.suffix.lower().lstrip(".").upper()
     return suffix or "Artifact"
+
+
+def infer_mode(path: Path, text: str) -> str:
+    suffix = path.suffix.lower()
+    if suffix in {".csv", ".tsv"}:
+        return "Tables"
+    if suffix in {".js", ".jsx", ".ts", ".tsx", ".py", ".go", ".rs", ".java", ".c", ".cc", ".cpp", ".h", ".hpp", ".cs", ".rb", ".php", ".swift", ".kt", ".sql", ".sh", ".bash", ".zsh", ".diff", ".patch", ".log"}:
+        return "Code"
+
+    lowered = text.lower()
+    if re.search(r"^\s*\|.+\|\s*$", text, re.M) and "---" in text:
+        return "Tables"
+    if "<svg" in lowered or "diagram" in lowered or "flowchart" in lowered or "arrow" in lowered:
+        return "Illustrations"
+    if any(token in lowered for token in ("<details", "checkbox", "sticky", "tabs", "accordion", "toggle")):
+        return "Interactions"
+    if any(token in lowered for token in ("timeline", "phase", "milestone", "rollout", "workflow", "stepper")):
+        return "Workflows"
+    if any(token in lowered for token in ("architecture", "ownership", "zone", "layout map", "spatial")):
+        return "Spatial"
+    if any(token in lowered for token in ("screenshot", "mockup", "figure", "<img", "image")):
+        return "Images"
+    if any(token in lowered for token in ("design", "layout", "visual", "card", "palette", "typography")):
+        return "Design"
+    if "```" in text or any(token in lowered for token in ("<pre><code", "code block", "snippet", "schema", "diff")):
+        return "Code"
+    return "Text"
+
+
+def mode_rank(mode: str) -> int:
+    try:
+        return MODE_ORDER.index(mode)
+    except ValueError:
+        return len(MODE_ORDER)
 
 
 def first_heading(markdown: str) -> str | None:
@@ -259,17 +318,26 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str, styles
     rel_rows = []
     nav_links = []
     sections = []
+    enriched_artifacts = []
 
     for index, (path, text) in enumerate(artifacts, start=1):
+        mode = infer_mode(path, text)
         rel = path.relative_to(root).as_posix()
         role = infer_role(path)
         heading = first_heading(text) or path.stem.replace("-", " ").replace("_", " ").title()
+        anchor = f"artifact-{index}-{slugify(rel)}"
+        enriched_artifacts.append((mode, role, rel, heading, anchor, path, text))
+
+    enriched_artifacts.sort(key=lambda item: (mode_rank(item[0]), item[1], item[2]))
+
+    for index, (mode, role, rel, heading, anchor, path, text) in enumerate(enriched_artifacts, start=1):
         anchor = f"artifact-{index}-{slugify(rel)}"
         nav_links.append(f'<a href="#{anchor}">{html.escape(heading)}</a>')
         rel_rows.append(
             "<tr>"
             f"<td><code>{html.escape(rel)}</code></td>"
             f"<td><span class=\"badge\">{html.escape(role)}</span></td>"
+            f"<td><span class=\"badge current\">{html.escape(mode)}</span></td>"
             f"<td>{len(text.splitlines())} lines</td>"
             "</tr>"
         )
@@ -329,8 +397,8 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str, styles
       <div class="section-title"><span class="node">01</span><h2>Source map</h2></div>
       <div class="source-map">
         <table>
-          <thead><tr><th>Artifact</th><th>Role</th><th>Size</th></tr></thead>
-          <tbody>{''.join(rel_rows) or '<tr><td colspan="3">No artifacts found.</td></tr>'}</tbody>
+          <thead><tr><th>Artifact</th><th>Role</th><th>Mode</th><th>Size</th></tr></thead>
+          <tbody>{''.join(rel_rows) or '<tr><td colspan="4">No artifacts found.</td></tr>'}</tbody>
         </table>
       </div>
     </section>
@@ -346,14 +414,30 @@ def build_html(root: Path, artifacts: List[Tuple[Path, str]], title: str, styles
       <div class="ig-callout ig-callout--note callout">
         <span class="ig-callout-icon">i</span>
         <div class="ig-callout-body">
-        <strong>Assumption:</strong> This page preserves and organizes existing source artifacts without inventing missing requirements. Edit this section to add decisions, risks, recommendations, or final implementation guidance.
+        <strong>Assumption:</strong> This page preserves and organizes existing source artifacts without inventing missing requirements.
+        Use the bundled reference docs for page anatomy, pattern selection, information modes, and the SemiColony visual system when adjusting the layout or renderer. Artifacts are sorted by the reference mode order: tables, design, illustrations, code, interactions, workflows, spatial, images, then text.
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="reference-guidance">
+      <div class="section-title"><span class="node">04</span><h2>Reference guidance</h2></div>
+      <div class="source-map">
+        <table>
+          <thead><tr><th>Reference</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>page_anatomy.md</code></td><td>Required page sections and artifact patterns</td></tr>
+            <tr><td><code>pattern_families.md</code></td><td>Shared family classes and rendering rules</td></tr>
+            <tr><td><code>required_information_modes.md</code></td><td>Which HTML treatment fits each content mode</td></tr>
+            <tr><td><code>semicolony-design-system.md</code></td><td>Palette, hierarchy, and roadmap-style layout guidance</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
   </main>
 
   <footer class="ig-footer">
-    <div class="container">Generated as a portable OpenSpec HTML artifact. Entry point: <code>index.html</code>.</div>
+    <div class="container">Generated as a portable OpenSpec HTML artifact. Entry point: <code>index.html</code>. Reference docs used: <code>{", ".join(REFERENCE_DOCS)}</code>.</div>
   </footer>
 </body>
 </html>
