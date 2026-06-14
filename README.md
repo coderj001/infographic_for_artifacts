@@ -7,7 +7,7 @@ One-command installer for the `artifacts-to-html` Codex skill and its bundled in
 From a GitHub repository:
 
 ```bash
-npx github:<user>/<repo> add .
+npx github:coderj001/infographic_for_artifacts add .
 ```
 
 If you have the repo locally:
@@ -22,11 +22,13 @@ The `add` command copies:
 
 - `skills/artifacts-to-html/SKILL.md`
 - `skills/artifacts-to-html/infographic-css/infographic.css`
+- `skills/artifacts-to-html/references/*.md`
 
 into:
 
 - `./.codex/skills/artifacts-to-html/SKILL.md`
 - `./.codex/skills/artifacts-to-html/references/infographic.css`
+- `./.codex/skills/artifacts-to-html/references/*.md`
 
 ## Package entrypoint
 
